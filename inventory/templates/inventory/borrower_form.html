@@ -1,0 +1,45 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="max-w-xl mx-auto mt-16 px-6 py-8 bg-white rounded-2xl shadow-md border border-indigo-300">
+
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-indigo-700">{{ action }} Borrower</h1>
+    <a href="{% url 'borrower_list' %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-5 py-2 rounded-xl shadow transition">
+      ← Back to Borrowers
+    </a>
+  </div>
+
+  <!-- Flash Messages -->
+  {% if messages %}
+  <ul class="mb-4">
+    {% for message in messages %}
+    <li class="text-sm p-3 rounded-lg {% if message.tags == 'success' %}bg-green-100 text-green-700{% elif message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-gray-100 text-gray-700{% endif %}">
+      {{ message }}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <!-- Form -->
+  <form method="POST" class="space-y-6">
+    {% csrf_token %}
+    <div>
+      <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
+      <input
+        type="text"
+        name="name"
+        required
+        value="{{ borrower.name|default_if_none:'' }}"
+        class="mt-1 block w-full border border-gray-300 rounded-xl px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+      >
+    </div>
+
+    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-xl shadow transition">
+      {{ action }}
+    </button>
+  </form>
+
+</div>
+{% endblock %}

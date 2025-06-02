@@ -1,0 +1,70 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="max-w-xl mx-auto mt-16 px-6 py-8 bg-white rounded-2xl shadow-md border border-indigo-300">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold text-indigo-700">Borrow Prop</h1>
+        <a href="{% url 'home' %}" class="text-indigo-600 hover:text-indigo-700">
+            ← Back to Available Props
+        </a>
+    </div>
+
+    <!-- Prop Details -->
+    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ prop.name }}</h2>
+        <div class="grid grid-cols-2 gap-4 text-sm text-gray-600">
+            <div>
+                <span class="font-medium">Category:</span>
+                <span>{{ prop.category }}</span>
+            </div>
+            <div>
+                <span class="font-medium">Available:</span>
+                <span>{{ prop.quantity }}</span>
+            </div>
+            <div>
+                <span class="font-medium">Condition:</span>
+                <span>{{ prop.condition }}</span>
+            </div>
+            <div>
+                <span class="font-medium">Location:</span>
+                <span>{{ prop.storage_location }}</span>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="p-3 rounded-lg {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Borrowing Form -->
+    <form method="POST" class="space-y-6">
+        {% csrf_token %}
+        
+        <div>
+            <label for="event_name" class="block text-sm font-medium text-gray-700">Event Name</label>
+            <input type="text" name="event_name" id="event_name" required
+                class="mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Enter the name of your event">
+        </div>
+
+        <div>
+            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity to Borrow</label>
+            <input type="number" name="quantity" id="quantity" required min="1" max="{{ prop.quantity }}"
+                class="mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Enter quantity">
+            <p class="mt-1 text-sm text-gray-500">Maximum available: {{ prop.quantity }}</p>
+        </div>
+
+        <button type="submit"
+            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition">
+            Confirm Borrowing
+        </button>
+    </form>
+</div>
+{% endblock %} 

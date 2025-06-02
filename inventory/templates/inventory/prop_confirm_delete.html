@@ -1,0 +1,26 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="max-w-lg mx-auto mt-20 px-6 py-8 bg-white rounded-2xl shadow-md border border-red-300">
+
+  <!-- Header -->
+  <h1 class="text-3xl font-bold text-red-700 mb-6 text-center">⚠️ Delete Prop</h1>
+
+  <!-- Warning Message -->
+  <p class="text-center text-gray-700 text-lg mb-8">
+    Are you sure you want to permanently delete <strong class="text-red-600">"{{ object }}"</strong>?
+  </p>
+
+  <!-- Action Buttons -->
+  <form method="post" class="flex justify-center gap-6">
+    {% csrf_token %}
+    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-xl transition duration-200 shadow">
+      ✅ Yes, Delete
+    </button>
+    <a href="{% url 'prop_list' %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-xl transition duration-200 shadow">
+      ❌ No, Cancel
+    </a>
+  </form>
+
+</div>
+{% endblock %}

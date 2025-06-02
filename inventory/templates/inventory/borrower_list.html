@@ -1,0 +1,56 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-6 py-8">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+    <h1 class="text-4xl font-extrabold text-indigo-700 flex items-center gap-3">
+        👥 Borrowers
+    </h1>
+    <a href="{% url 'home' %}" class="inline-block bg-gray-200 text-gray-800 font-semibold px-5 py-2 rounded-xl hover:bg-gray-300 transition shadow ml-6">
+        ← Back to Home
+    </a>
+</div>
+
+    <!-- Add New Borrower Button -->
+    <div class="mb-8">
+        <a href="{% url 'borrower_add' %}" class="inline-block bg-indigo-600 hover:bg-indigo-400 text-white font-medium py-2 px-6 rounded-xl shadow-lg transition duration-500">
+            ➕ Add New Borrower
+        </a>
+    </div>
+
+    <!-- Borrowers Table -->
+    {% if borrowers %}
+    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-indigo-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-indigo-600 uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-indigo-600 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-indigo-600 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for borrower in borrowers %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ borrower.id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ borrower.name }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap space-x-2">
+                        <a href="{% url 'borrower_edit' borrower.id %}" 
+                           class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg shadow-sm text-sm transition">
+                           ✏️ Edit
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center text-gray-500 mt-12 text-lg">
+        No borrowers found.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

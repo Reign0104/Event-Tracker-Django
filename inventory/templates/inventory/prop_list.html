@@ -1,0 +1,66 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-6 py-8">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-4xl font-extrabold text-indigo-700 flex items-center gap-3">
+            🎭 Props List
+        </h1>
+        <a href="{% url 'home' %}" class="inline-block bg-gray-200 text-gray-800 font-semibold px-5 py-2 rounded-x1 hover:bg-gray-300 transition-all duration-200 shadow">
+            ← Back to Home
+        </a>
+    </div>
+
+    <!-- Add New Prop Button -->
+    <div class="mb-8">
+        <a href="{% url 'prop_add' %}" class="inline-block text-white bg-indigo-600 hover:bg-indigo-700 font-medium py-2.5 px-6 rounded-x1 shadow-lg transition duration-300">
+            ➕ Add New Prop
+        </a>
+    </div>
+
+    <!-- Props Grid -->
+    {% if props %}
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {% for prop in props %}
+        <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden hover:shadow-xl transition duration-300">
+            {% if prop.image %}
+            <img src="{{ prop.image.url }}" alt="{{ prop.name }}" class="w-full h-48 object-cover">
+            {% else %}
+            <div class="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm italic">
+                No Image Available
+            </div>
+            {% endif %}
+            <div class="p-5">
+                <h2 class="text-lg font-semibold text-gray-800 mb-2">{{ prop.name }}</h2>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    📂 <strong>Category:</strong> {{ prop.category }}<br>
+                    📦 <strong>Quantity:</strong> {{ prop.quantity }}<br>
+                    🛠 <strong>Condition:</strong> {{ prop.condition }}
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <a href="{% url 'prop_edit' prop.id %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg shadow-sm text-sm transition">
+                        ✏️ Edit
+                    </a>
+                    <a href="{% url 'prop_delete' prop.id %}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg shadow-sm text-sm transition">
+                        🗑️ Delete
+                    </a>
+                    <a href="{% url 'use_prop' prop.id %}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1.5 rounded-lg shadow-sm text-sm transition">
+                        📤 Use
+                    </a>
+                    <a href="{% url 'prop_use_history' prop.id %}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-1.5 rounded-lg shadow-sm text-sm transition">
+                        📜 History
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center text-gray-500 mt-12 text-lg">No props available.</div>
+    {% endif %}
+</div>
+{% endblock %}
